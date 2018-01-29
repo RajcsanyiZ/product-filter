@@ -1,6 +1,5 @@
 /node_modules
 /public/hot
-/storage
 /storage/logs
 /storage/debugbar
 /storage/*.key

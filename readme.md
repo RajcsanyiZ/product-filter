@@ -8,6 +8,10 @@ A repository a [https://vuejs.hu/cikk/egyszeru-termek-szuro/31](https://vuejs.hu
 
 `composer install`
 
+hozz létre egy .env fájlt
+
+`php artisan key:generate`
+
 `npm install`
 
 `npm run dev`
