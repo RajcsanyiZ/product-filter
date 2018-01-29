@@ -4,18 +4,23 @@ A repository a [https://vuejs.hu/cikk/egyszeru-termek-szuro/31](https://vuejs.hu
 
 ### Installálás
 
-`git clone https://github.com/vuejs-hu/product-filter.git`
+- `git clone https://github.com/vuejs-hu/product-filter.git`
 
-`composer install`
+- `composer install`
 
-hozz létre egy .env fájlt
+- hozz létre egy .env fájlt
 
-`php artisan key:generate`
+- `php artisan key:generate`
 
-`npm install`
+- kommenteld ki az adatbázis beállításokat és ezt tedd csak bele:
+`DB_CONNECTION=sqlite`
 
-`npm run dev`
+- `npm install`
+
+- `npm run dev`
+
+- adj írási jogot a `/bootstrap/cache` és `/storage` mappáknak és fájljaiknak (ha esetleg hibaként jelenne meg ez)
 
 ### Indítás
 
-`php artisan serve`
+- `php artisan serve`
