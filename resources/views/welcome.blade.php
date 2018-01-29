@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <ul class="list-unstyled" v-if="products.length">
-                        <li v-for="(product,index) in products">
+                        <li v-for="product in products">
                             <div class="row">
                             <div class="col-md-6">
                                 <img :src="product.image" alt="" width="50%" height="50%">    

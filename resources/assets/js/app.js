@@ -31,13 +31,11 @@ const app = new Vue({
     },
     methods: {
       submitFilters: function() {
-      	console.log(this.filters);
       	window.axios.get('/api/products', {
 		    params: this.filters
 		  })
 		  .then(function (response) {
 		  	this.products = response.data;
-		    console.log(response.data);
 		  }.bind(this))
 		  .catch(function (error) {
 		    console.log(error);

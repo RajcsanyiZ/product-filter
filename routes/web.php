@@ -16,16 +16,12 @@ Route::get('/', function () {
 });
 
 Route::get('/api/products', function(){
-	//dd(App\Product::get());
-	$products = App\Product::select('*');
 
-	logger(request()->all());
+	$products = App\Product::select('*');
 
 	$cols = [];
 	foreach (request()->all() as $key => $req) {
 		if (starts_with($key, 'col')) {
-			//logger($key.':');
-			//logger($req);
 			if ($req == 'true') {
 				$number = substr($key, 3);
 				$cols[] = intval($number);
@@ -52,9 +48,6 @@ Route::get('/api/products', function(){
 			});			
 		}
 	}
-	//logger($cols);
-
-	//$cols = ['12'];
 
 	$products = $products->whereIn('col', $cols);
 
