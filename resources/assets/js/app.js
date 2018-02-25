@@ -20,16 +20,25 @@ const app = new Vue({
     data: {
     	products: [],
     	filters: {
+            // szűrés a termék nevére
+            keywords: '',
+
+    		// szűrés képernyő méretre
     		col11: true,
-    		col12: true,
-    		col13: true,
-    		col15: true,
-    		col21: true,
-    		col27: true,
-    		ranges: 4
+            col12: true,
+            col13: true,
+            col15: true,
+            col21: true,
+            col27: true,
+
+			// szűrés ár tartományra
+            ranges: 'all'
     	}
     },
+
     methods: {
+
+	  // szűrők módosítása esetén
       submitFilters: function() {
       	window.axios.get('/api/products', {
 		    params: this.filters
@@ -42,6 +51,8 @@ const app = new Vue({
 		  });
       }
     },
+
+	// lekérdezés az alapértelmezett szűrők alapján
     created: function() {
     	this.submitFilters();
     }

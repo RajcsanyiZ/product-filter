@@ -1,61 +1,52 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
+/**
+ * Nyitóoldal, a termékek listájával
+ * url: / (nyitólap, GET metódus)
+ */
 Route::get('/', function () {
-    return view('welcome');
+    return view('products');
 });
 
+/**
+ * Termékek visszadása ajax-on
+ * url: /api/products (GET metódus)
+ */
 Route::get('/api/products', function(){
 
+    // összes termék, összes mezőjének listázása
 	$products = App\Product::select('*');
 
-	$cols = [];
+	// szűrés: termék neve szerint
+    if (request()->has('keywords') and (request()->get('keywords')) !== '') {
+        $products = $products->where('name', 'like', '%'.request()->get('keywords').'%');
+    }
+
+	// szűrés: képernyő méretére
+	$filter_display_size = [];
 	foreach (request()->all() as $key => $req) {
 		if (starts_with($key, 'col')) {
 			if ($req == 'true') {
-				$number = substr($key, 3);
-				$cols[] = intval($number);
+				$filter_display_size[] = (int)substr($key, 3);
 			}
 		}
 	}
+    $products = $products->whereIn('col', $filter_display_size);
 
-	if (request()->has('ranges') && request()->get('ranges') != 4) {
-		if (request()->get('ranges') == 1) {
-			$products = $products->where(function($q){
-				$q->where('price', '>=', 500);
-				$q->where('price', '<=', 1000);
-			});
-			
-		} elseif (request()->get('ranges') == 2) {
-			$products = $products->where(function($q){
-				$q->where('price', '>=', 1000);
-				$q->where('price', '<=', 1500);
-			});			
-		} elseif (request()->get('ranges') == 3) {
-			$products = $products->where(function($q){
-				$q->where('price', '>=', 1500);
-				$q->where('price', '<=', 2000);
-			});			
-		}
+	// szűrés: ár intervallumra
+	if (request()->has('ranges') and (request()->get('ranges')) !== 'all') {
+        $price_period = explode('-', request()->get('ranges'));
+	    $products = $products->whereBetween('price', $price_period);
 	}
-
-	$products = $products->whereIn('col', $cols);
 
 	return $products->orderBy('col')->get();
 });
 
+/**
+ * Migrációs szkript a termékek létrehozásához
+ * url: /create (GET metódus)
+ */
 Route::get('create', function(){
-	//dd(App\Product::get());
 	App\Product::create([
 		'id' => 1,
 		'name' => 'Apple 13" MacBook Air',
@@ -113,5 +104,5 @@ Route::get('create', function(){
 		'col' => 27
 	]);
 
-	
+
 });
